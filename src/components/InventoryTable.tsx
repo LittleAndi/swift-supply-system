@@ -1,6 +1,6 @@
-
 import { useState } from "react";
 import { AlertTriangle, Package, TrendingDown, TrendingUp } from "lucide-react";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
 const inventoryItems = [
   {
@@ -107,51 +107,53 @@ export default function InventoryTable() {
           </button>
         </div>
       </div>
-      <div className="overflow-x-auto rounded-xl shadow ring-1 ring-muted/30">
-        <table className="min-w-full bg-white text-left text-sm">
-          <thead>
-            <tr className="border-b">
-              <th className="px-4 py-3 font-semibold">SKU</th>
-              <th className="px-4 py-3 font-semibold">Product Name</th>
-              <th className="px-4 py-3 font-semibold">Category</th>
-              <th className="px-4 py-3 font-semibold">Warehouse</th>
-              <th className="px-4 py-3 font-semibold">Current Stock</th>
-              <th className="px-4 py-3 font-semibold">Reorder Level</th>
-              <th className="px-4 py-3 font-semibold">Unit Cost</th>
-              <th className="px-4 py-3 font-semibold">Total Value</th>
-              <th className="px-4 py-3 font-semibold">Last Movement</th>
-              <th className="px-4 py-3 font-semibold">Status</th>
-            </tr>
-          </thead>
-          <tbody>
-            {inventoryItems.map((item) => (
-              <tr
-                key={item.id}
-                className="border-t hover:bg-muted transition group"
-              >
-                <td className="px-4 py-3 font-mono text-sm">{item.id}</td>
-                <td className="px-4 py-3 font-medium">{item.name}</td>
-                <td className="px-4 py-3">{item.category}</td>
-                <td className="px-4 py-3">{item.warehouse}</td>
-                <td className="px-4 py-3">
-                  <span className={item.currentStock <= item.reorderLevel ? "text-orange-600 font-medium" : ""}>
-                    {item.currentStock.toLocaleString()}
-                  </span>
-                </td>
-                <td className="px-4 py-3">{item.reorderLevel.toLocaleString()}</td>
-                <td className="px-4 py-3">{item.unitCost}</td>
-                <td className="px-4 py-3">{item.totalValue}</td>
-                <td className="px-4 py-3">{item.lastMovement}</td>
-                <td className="px-4 py-3">
-                  <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold ${getStatusColor(item.status)}`}>
-                    {getStatusIcon(item.status)}
-                    {item.status}
-                  </span>
-                </td>
+      <div className="rounded-xl shadow ring-1 ring-muted/30 bg-white">
+        <ScrollArea className="h-[600px]">
+          <table className="min-w-full bg-white text-left text-sm">
+            <thead className="sticky top-0 bg-white z-10 border-b">
+              <tr>
+                <th className="px-4 py-3 font-semibold">SKU</th>
+                <th className="px-4 py-3 font-semibold">Product Name</th>
+                <th className="px-4 py-3 font-semibold">Category</th>
+                <th className="px-4 py-3 font-semibold">Warehouse</th>
+                <th className="px-4 py-3 font-semibold">Current Stock</th>
+                <th className="px-4 py-3 font-semibold">Reorder Level</th>
+                <th className="px-4 py-3 font-semibold">Unit Cost</th>
+                <th className="px-4 py-3 font-semibold">Total Value</th>
+                <th className="px-4 py-3 font-semibold">Last Movement</th>
+                <th className="px-4 py-3 font-semibold">Status</th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {inventoryItems.map((item) => (
+                <tr
+                  key={item.id}
+                  className="border-t hover:bg-muted transition group"
+                >
+                  <td className="px-4 py-3 font-mono text-sm">{item.id}</td>
+                  <td className="px-4 py-3 font-medium">{item.name}</td>
+                  <td className="px-4 py-3">{item.category}</td>
+                  <td className="px-4 py-3">{item.warehouse}</td>
+                  <td className="px-4 py-3">
+                    <span className={item.currentStock <= item.reorderLevel ? "text-orange-600 font-medium" : ""}>
+                      {item.currentStock.toLocaleString()}
+                    </span>
+                  </td>
+                  <td className="px-4 py-3">{item.reorderLevel.toLocaleString()}</td>
+                  <td className="px-4 py-3">{item.unitCost}</td>
+                  <td className="px-4 py-3">{item.totalValue}</td>
+                  <td className="px-4 py-3">{item.lastMovement}</td>
+                  <td className="px-4 py-3">
+                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold ${getStatusColor(item.status)}`}>
+                      {getStatusIcon(item.status)}
+                      {item.status}
+                    </span>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </ScrollArea>
       </div>
     </section>
   );

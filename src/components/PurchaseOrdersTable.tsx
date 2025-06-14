@@ -4,6 +4,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Eye, Edit, MoreHorizontal } from "lucide-react";
 import PurchaseOrderDetailsDialog from "./PurchaseOrderDetailsDialog";
 
@@ -253,53 +254,57 @@ export default function PurchaseOrdersTable() {
             Manage and track all purchase orders
           </CardDescription>
         </CardHeader>
-        <CardContent>
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>PO Number</TableHead>
-                <TableHead>Supplier</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Amount</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Delivery Date</TableHead>
-                <TableHead className="text-right">Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {purchaseOrders.map((po) => (
-                <TableRow key={po.id}>
-                  <TableCell className="font-medium">{po.id}</TableCell>
-                  <TableCell>{po.supplier}</TableCell>
-                  <TableCell>{po.category}</TableCell>
-                  <TableCell className="font-semibold">{po.amount}</TableCell>
-                  <TableCell>
-                    <Badge className={getStatusColor(po.status)} variant="secondary">
-                      {po.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>{po.deliveryDate}</TableCell>
-                  <TableCell className="text-right">
-                    <div className="flex justify-end gap-2">
-                      <Button 
-                        variant="ghost" 
-                        size="sm"
-                        onClick={() => handleViewDetails(po)}
-                      >
-                        <Eye size={16} />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <Edit size={16} />
-                      </Button>
-                      <Button variant="ghost" size="sm">
-                        <MoreHorizontal size={16} />
-                      </Button>
-                    </div>
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+        <CardContent className="p-0">
+          <ScrollArea className="h-[600px]">
+            <div className="p-6">
+              <Table>
+                <TableHeader className="sticky top-0 bg-white z-10">
+                  <TableRow>
+                    <TableHead>PO Number</TableHead>
+                    <TableHead>Supplier</TableHead>
+                    <TableHead>Category</TableHead>
+                    <TableHead>Amount</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Delivery Date</TableHead>
+                    <TableHead className="text-right">Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {purchaseOrders.map((po) => (
+                    <TableRow key={po.id}>
+                      <TableCell className="font-medium">{po.id}</TableCell>
+                      <TableCell>{po.supplier}</TableCell>
+                      <TableCell>{po.category}</TableCell>
+                      <TableCell className="font-semibold">{po.amount}</TableCell>
+                      <TableCell>
+                        <Badge className={getStatusColor(po.status)} variant="secondary">
+                          {po.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>{po.deliveryDate}</TableCell>
+                      <TableCell className="text-right">
+                        <div className="flex justify-end gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            onClick={() => handleViewDetails(po)}
+                          >
+                            <Eye size={16} />
+                          </Button>
+                          <Button variant="ghost" size="sm">
+                            <Edit size={16} />
+                          </Button>
+                          <Button variant="ghost" size="sm">
+                            <MoreHorizontal size={16} />
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </div>
+          </ScrollArea>
         </CardContent>
       </Card>
 
