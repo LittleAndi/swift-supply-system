@@ -1,4 +1,5 @@
-import { useState } from "react";
+
+import React, { useState } from "react";
 import { ModeIcon } from "./ModeIcon";
 import { BadgeCheck, Clock12, ChevronDown, ChevronRight } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
