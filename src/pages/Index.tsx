@@ -2,7 +2,7 @@
 import DashboardSidebar from "@/components/DashboardSidebar";
 import DashboardHeader from "@/components/DashboardHeader";
 import KPISection from "@/components/KPISection";
-import ShipmentTable from "@/components/ShipmentTable";
+import RecentShipmentsTable from "@/components/RecentShipmentsTable";
 
 const Index = () => {
   return (
@@ -19,8 +19,8 @@ const Index = () => {
           {/* KPI Cards */}
           <KPISection />
 
-          {/* Shipment Status Table */}
-          <ShipmentTable />
+          {/* Recent Shipments Table */}
+          <RecentShipmentsTable />
 
           {/* Quick intro */}
           <section className="mt-7 max-w-2xl text-gray-600">
