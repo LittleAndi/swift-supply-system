@@ -4,6 +4,7 @@ import DashboardHeader from "@/components/DashboardHeader";
 import AnalyticsOverview from "@/components/AnalyticsOverview";
 import PerformanceCharts from "@/components/PerformanceCharts";
 import CostAnalysisCharts from "@/components/CostAnalysisCharts";
+import EfficiencyMetrics from "@/components/EfficiencyMetrics";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Analytics = () => {
@@ -44,10 +45,7 @@ const Analytics = () => {
             </TabsContent>
             
             <TabsContent value="efficiency" className="mt-6">
-              <div className="bg-white rounded-xl p-6 shadow ring-1 ring-muted/30">
-                <h3 className="text-lg font-semibold mb-4">Efficiency Metrics Coming Soon</h3>
-                <p className="text-gray-600">Operational efficiency metrics and optimization insights will be displayed here.</p>
-              </div>
+              <EfficiencyMetrics />
             </TabsContent>
           </Tabs>
         </main>
