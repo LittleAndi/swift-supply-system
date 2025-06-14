@@ -1,7 +1,8 @@
-
+import { useState } from "react";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Star, MapPin, Phone } from "lucide-react";
+import SupplierDetailsDialog from "./SupplierDetailsDialog";
 
 const topSuppliers = [
   {
@@ -39,50 +40,67 @@ const topSuppliers = [
 ];
 
 export default function SupplierOverview() {
+  const [selectedSupplier, setSelectedSupplier] = useState<typeof topSuppliers[0] | null>(null);
+  const [dialogOpen, setDialogOpen] = useState(false);
+
+  const handleSupplierClick = (supplier: typeof topSuppliers[0]) => {
+    setSelectedSupplier(supplier);
+    setDialogOpen(true);
+  };
+
   return (
-    <Card>
-      <CardHeader>
-        <CardTitle>Top Suppliers</CardTitle>
-        <CardDescription>
-          Key supplier relationships and performance
-        </CardDescription>
-      </CardHeader>
-      <CardContent className="space-y-4">
-        {topSuppliers.map((supplier) => (
-          <div
-            key={supplier.name}
-            className="border rounded-lg p-4 space-y-3"
-          >
-            <div className="flex items-start justify-between">
-              <div>
-                <h4 className="font-semibold text-sm">{supplier.name}</h4>
-                <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
-                  <MapPin size={12} />
-                  {supplier.location}
+    <>
+      <Card>
+        <CardHeader>
+          <CardTitle>Top Suppliers</CardTitle>
+          <CardDescription>
+            Key supplier relationships and performance
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          {topSuppliers.map((supplier) => (
+            <div
+              key={supplier.name}
+              onClick={() => handleSupplierClick(supplier)}
+              className="border rounded-lg p-4 space-y-3 cursor-pointer hover:bg-gray-50 transition-colors"
+            >
+              <div className="flex items-start justify-between">
+                <div>
+                  <h4 className="font-semibold text-sm">{supplier.name}</h4>
+                  <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
+                    <MapPin size={12} />
+                    {supplier.location}
+                  </div>
+                  <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
+                    <Phone size={12} />
+                    {supplier.phone}
+                  </div>
                 </div>
-                <div className="flex items-center gap-1 text-xs text-gray-500 mt-1">
-                  <Phone size={12} />
-                  {supplier.phone}
+                <Badge 
+                  variant={supplier.status === "Active" ? "default" : "secondary"}
+                  className="text-xs"
+                >
+                  {supplier.status}
+                </Badge>
+              </div>
+              
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center gap-1">
+                  <Star size={12} className="text-yellow-500 fill-current" />
+                  <span className="font-medium">{supplier.rating}</span>
                 </div>
+                <span className="text-gray-500">{supplier.totalOrders} orders</span>
               </div>
-              <Badge 
-                variant={supplier.status === "Active" ? "default" : "secondary"}
-                className="text-xs"
-              >
-                {supplier.status}
-              </Badge>
             </div>
-            
-            <div className="flex items-center justify-between text-xs">
-              <div className="flex items-center gap-1">
-                <Star size={12} className="text-yellow-500 fill-current" />
-                <span className="font-medium">{supplier.rating}</span>
-              </div>
-              <span className="text-gray-500">{supplier.totalOrders} orders</span>
-            </div>
-          </div>
-        ))}
-      </CardContent>
-    </Card>
+          ))}
+        </CardContent>
+      </Card>
+
+      <SupplierDetailsDialog
+        supplier={selectedSupplier}
+        open={dialogOpen}
+        onOpenChange={setDialogOpen}
+      />
+    </>
   );
 }
