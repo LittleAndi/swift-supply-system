@@ -124,6 +124,30 @@ const sampleShipments = [
     destination: "Marseille, France",
     status: "At Port",
     eta: "2025-06-18",
+    containerId: "CONT782193",
+    containerType: "20ft Standard",
+    currentSegment: 0,
+    journeySegments: [
+      {
+        id: "seg1",
+        mode: "Train" as const,
+        origin: "Toulouse, France",
+        destination: "Marseille, France",
+        status: "In Progress" as const,
+        estimatedDuration: "5 hours",
+      }
+    ],
+    consolidatedShipments: [
+      {
+        supplierId: "PRO001",
+        supplierName: "Procter & Gamble",
+        orderIds: ["PO129"],
+        weight: "5,200 kg",
+        volume: "28 m³"
+      }
+    ],
+    totalWeight: "5,200 kg",
+    totalVolume: "28 m³"
   },
   {
     id: "SH998272",
@@ -133,6 +157,47 @@ const sampleShipments = [
     destination: "Los Angeles, USA",
     status: "In Transit",
     eta: "2025-07-11",
+    containerId: "CONT998272",
+    containerType: "40ft Standard",
+    currentSegment: 1,
+    journeySegments: [
+      {
+        id: "seg1",
+        mode: "Truck" as const,
+        origin: "Shanghai Factory",
+        destination: "Shanghai Port",
+        status: "Completed" as const,
+        estimatedDuration: "3 hours",
+        actualDuration: "2.5 hours"
+      },
+      {
+        id: "seg2",
+        mode: "Ship" as const,
+        origin: "Shanghai Port",
+        destination: "Los Angeles Port",
+        status: "In Progress" as const,
+        estimatedDuration: "16 days",
+      },
+      {
+        id: "seg3",
+        mode: "Truck" as const,
+        origin: "Los Angeles Port",
+        destination: "Final Destination",
+        status: "Pending" as const,
+        estimatedDuration: "4 hours",
+      }
+    ],
+    consolidatedShipments: [
+      {
+        supplierId: "REC001",
+        supplierName: "Reckitt (CN)",
+        orderIds: ["PO130"],
+        weight: "7,100 kg",
+        volume: "42 m³"
+      }
+    ],
+    totalWeight: "7,100 kg",
+    totalVolume: "42 m³"
   },
   {
     id: "TR445671",
@@ -142,6 +207,30 @@ const sampleShipments = [
     destination: "Chicago, USA",
     status: "In Transit",
     eta: "2025-06-20",
+    containerId: "CONT445671",
+    containerType: "20ft Standard",
+    currentSegment: 0,
+    journeySegments: [
+      {
+        id: "seg1",
+        mode: "Truck" as const,
+        origin: "New Brunswick, USA",
+        destination: "Chicago, USA",
+        status: "In Progress" as const,
+        estimatedDuration: "12 hours",
+      }
+    ],
+    consolidatedShipments: [
+      {
+        supplierId: "JNJ001",
+        supplierName: "Johnson & Johnson",
+        orderIds: ["PO131"],
+        weight: "4,800 kg",
+        volume: "26 m³"
+      }
+    ],
+    totalWeight: "4,800 kg",
+    totalVolume: "26 m³"
   },
   {
     id: "SH778923",
@@ -151,431 +240,61 @@ const sampleShipments = [
     destination: "Rotterdam, Netherlands",
     status: "At Port",
     eta: "2025-07-05",
-  },
-  {
-    id: "RA334556",
-    supplier: "Henkel AG",
-    mode: "Train" as const,
-    origin: "Düsseldorf, Germany",
-    destination: "Milan, Italy",
-    status: "Delivered",
-    eta: "2025-06-10",
-  },
-  {
-    id: "TR889012",
-    supplier: "Kimberly-Clark",
-    mode: "Truck" as const,
-    origin: "Dallas, USA",
-    destination: "Phoenix, USA",
-    status: "In Transit",
-    eta: "2025-06-16",
-  },
-  {
-    id: "SH445892",
-    supplier: "L'Oréal International",
-    mode: "Ship" as const,
-    origin: "Le Havre, France",
-    destination: "New York, USA",
-    status: "In Transit",
-    eta: "2025-06-25",
-  },
-  {
-    id: "TR667334",
-    supplier: "Beiersdorf AG",
-    mode: "Truck" as const,
-    origin: "Hamburg, Germany",
-    destination: "Berlin, Germany",
-    status: "Delivered",
-    eta: "2025-06-13",
-  },
-  {
-    id: "RA892441",
-    supplier: "Kao Corporation",
-    mode: "Train" as const,
-    origin: "Tokyo, Japan",
-    destination: "Osaka, Japan",
-    status: "At Port",
-    eta: "2025-06-17",
-  },
-  {
-    id: "SH223456",
-    supplier: "Mondelez International",
-    mode: "Ship" as const,
-    origin: "Cadbury, UK",
-    destination: "Sydney, Australia",
-    status: "In Transit",
-    eta: "2025-07-08",
-  },
-  {
-    id: "TR778990",
-    supplier: "General Mills",
-    mode: "Truck" as const,
-    origin: "Minneapolis, USA",
-    destination: "Denver, USA",
-    status: "Delivered",
-    eta: "2025-06-14",
-  },
-  {
-    id: "RA556781",
-    supplier: "Danone Group",
-    mode: "Train" as const,
-    origin: "Paris, France",
-    destination: "Lyon, France",
-    status: "In Transit",
-    eta: "2025-06-19",
-  },
-  {
-    id: "SH990123",
-    supplier: "Mars Incorporated",
-    mode: "Ship" as const,
-    origin: "Virginia, USA",
-    destination: "Liverpool, UK",
-    status: "At Port",
-    eta: "2025-06-28",
-  },
-  {
-    id: "TR334567",
-    supplier: "PepsiCo International",
-    mode: "Truck" as const,
-    origin: "Purchase, USA",
-    destination: "Atlanta, USA",
-    status: "Delivered",
-    eta: "2025-06-11",
-  },
-  {
-    id: "RA445678",
-    supplier: "Ferrero Group",
-    mode: "Train" as const,
-    origin: "Alba, Italy",
-    destination: "Rome, Italy",
-    status: "In Transit",
-    eta: "2025-06-21",
-  },
-  {
-    id: "SH667890",
-    supplier: "Church & Dwight",
-    mode: "Ship" as const,
-    origin: "New Jersey, USA",
-    destination: "Vancouver, Canada",
-    status: "At Port",
-    eta: "2025-07-02",
-  },
-  {
-    id: "TR123789",
-    supplier: "SC Johnson",
-    mode: "Truck" as const,
-    origin: "Racine, USA",
-    destination: "Milwaukee, USA",
-    status: "Delivered",
-    eta: "2025-06-15",
-  },
-  {
-    id: "RA890234",
-    supplier: "Clorox Company",
-    mode: "Train" as const,
-    origin: "Oakland, USA",
-    destination: "Sacramento, USA",
-    status: "In Transit",
-    eta: "2025-06-22",
-  },
-  {
-    id: "SH345678",
-    supplier: "Estée Lauder Companies",
-    mode: "Ship" as const,
-    origin: "New York, USA",
-    destination: "London, UK",
-    status: "In Transit",
-    eta: "2025-06-30",
-  },
-  {
-    id: "TR901234",
-    supplier: "Revlon Inc",
-    mode: "Truck" as const,
-    origin: "New York, USA",
-    destination: "Boston, USA",
-    status: "Delivered",
-    eta: "2025-06-16",
-  },
-  {
-    id: "RA567890",
-    supplier: "Shiseido Company",
-    mode: "Train" as const,
-    origin: "Tokyo, Japan",
-    destination: "Kyoto, Japan",
-    status: "At Port",
-    eta: "2025-06-23",
-  },
-  {
-    id: "SH789012",
-    supplier: "Avon Products",
-    mode: "Ship" as const,
-    origin: "London, UK",
-    destination: "Dublin, Ireland",
-    status: "In Transit",
-    eta: "2025-06-26",
-  },
-  {
-    id: "TR234567",
-    supplier: "Maybelline New York",
-    mode: "Truck" as const,
-    origin: "New York, USA",
-    destination: "Philadelphia, USA",
-    status: "Delivered",
-    eta: "2025-06-17",
-  },
-  {
-    id: "RA678901",
-    supplier: "CoverGirl Cosmetics",
-    mode: "Train" as const,
-    origin: "Cincinnati, USA",
-    destination: "Columbus, USA",
-    status: "In Transit",
-    eta: "2025-06-24",
-  },
-  {
-    id: "SH012345",
-    supplier: "MAC Cosmetics",
-    mode: "Ship" as const,
-    origin: "Toronto, Canada",
-    destination: "Montreal, Canada",
-    status: "At Port",
-    eta: "2025-07-01",
-  },
-  {
-    id: "TR456789",
-    supplier: "NYX Professional Makeup",
-    mode: "Truck" as const,
-    origin: "Los Angeles, USA",
-    destination: "San Francisco, USA",
-    status: "Delivered",
-    eta: "2025-06-18",
-  },
-  {
-    id: "RA123456",
-    supplier: "Urban Decay",
-    mode: "Train" as const,
-    origin: "Newport Beach, USA",
-    destination: "San Diego, USA",
-    status: "In Transit",
-    eta: "2025-06-25",
-  },
-  {
-    id: "SH567890",
-    supplier: "Too Faced Cosmetics",
-    mode: "Ship" as const,
-    origin: "Irvine, USA",
-    destination: "Seattle, USA",
-    status: "At Port",
-    eta: "2025-07-03",
-  },
-  {
-    id: "TR890123",
-    supplier: "Benefit Cosmetics",
-    mode: "Truck" as const,
-    origin: "San Francisco, USA",
-    destination: "Portland, USA",
-    status: "Delivered",
-    eta: "2025-06-19",
-  },
-  {
-    id: "RA345678",
-    supplier: "Tarte Cosmetics",
-    mode: "Train" as const,
-    origin: "New York, USA",
-    destination: "Washington DC, USA",
-    status: "In Transit",
-    eta: "2025-06-26",
-  },
-  {
-    id: "SH789123",
-    supplier: "Fenty Beauty",
-    mode: "Ship" as const,
-    origin: "New York, USA",
-    destination: "Miami, USA",
-    status: "At Port",
-    eta: "2025-07-04",
-  },
-  {
-    id: "TR012456",
-    supplier: "Rare Beauty",
-    mode: "Truck" as const,
-    origin: "Los Angeles, USA",
-    destination: "Las Vegas, USA",
-    status: "Delivered",
-    eta: "2025-06-20",
-  },
-  {
-    id: "RA456789",
-    supplier: "Glossier Inc",
-    mode: "Train" as const,
-    origin: "New York, USA",
-    destination: "Baltimore, USA",
-    status: "In Transit",
-    eta: "2025-06-27",
-  },
-  {
-    id: "SH890234",
-    supplier: "Kylie Cosmetics",
-    mode: "Ship" as const,
-    origin: "Los Angeles, USA",
-    destination: "Honolulu, USA",
-    status: "At Port",
-    eta: "2025-07-06",
-  },
-  {
-    id: "TR123567",
-    supplier: "Morphe Cosmetics",
-    mode: "Truck" as const,
-    origin: "Los Angeles, USA",
-    destination: "Phoenix, USA",
-    status: "Delivered",
-    eta: "2025-06-21",
-  },
-  {
-    id: "RA567123",
-    supplier: "Charlotte Tilbury",
-    mode: "Train" as const,
-    origin: "London, UK",
-    destination: "Manchester, UK",
-    status: "In Transit",
-    eta: "2025-06-28",
-  },
-  {
-    id: "SH234678",
-    supplier: "Huda Beauty",
-    mode: "Ship" as const,
-    origin: "Dubai, UAE",
-    destination: "Doha, Qatar",
-    status: "At Port",
-    eta: "2025-07-07",
-  },
-  {
-    id: "TR678901",
-    supplier: "Anastasia Beverly Hills",
-    mode: "Truck" as const,
-    origin: "Beverly Hills, USA",
-    destination: "Santa Monica, USA",
-    status: "Delivered",
-    eta: "2025-06-22",
-  },
-  {
-    id: "RA890567",
-    supplier: "Jeffree Star Cosmetics",
-    mode: "Train" as const,
-    origin: "California, USA",
-    destination: "Nevada, USA",
-    status: "In Transit",
-    eta: "2025-06-29",
-  },
-  {
-    id: "SH345901",
-    supplier: "Pat McGrath Labs",
-    mode: "Ship" as const,
-    origin: "New York, USA",
-    destination: "Toronto, Canada",
-    status: "At Port",
-    eta: "2025-07-08",
-  },
-  {
-    id: "TR789234",
-    supplier: "NARS Cosmetics",
-    mode: "Truck" as const,
-    origin: "New York, USA",
-    destination: "Newark, USA",
-    status: "Delivered",
-    eta: "2025-06-23",
-  },
-  {
-    id: "RA012678",
-    supplier: "Bobbi Brown Cosmetics",
-    mode: "Train" as const,
-    origin: "New York, USA",
-    destination: "Hartford, USA",
-    status: "In Transit",
-    eta: "2025-06-30",
-  },
-  {
-    id: "SH456012",
-    supplier: "Laura Mercier",
-    mode: "Ship" as const,
-    origin: "New York, USA",
-    destination: "Norfolk, USA",
-    status: "At Port",
-    eta: "2025-07-09",
-  },
-  {
-    id: "TR901567",
-    supplier: "Clinique Laboratories",
-    mode: "Truck" as const,
-    origin: "New York, USA",
-    destination: "Albany, USA",
-    status: "Delivered",
-    eta: "2025-06-24",
-  },
-  {
-    id: "RA234890",
-    supplier: "Origins Natural Resources",
-    mode: "Train" as const,
-    origin: "New York, USA",
-    destination: "Syracuse, USA",
-    status: "In Transit",
-    eta: "2025-07-01",
-  },
-  {
-    id: "SH678345",
-    supplier: "Kiehl's Since 1851",
-    mode: "Ship" as const,
-    origin: "New York, USA",
-    destination: "Charleston, USA",
-    status: "At Port",
-    eta: "2025-07-10",
-  },
-  {
-    id: "TR123890",
-    supplier: "Fresh Beauty",
-    mode: "Truck" as const,
-    origin: "Boston, USA",
-    destination: "Providence, USA",
-    status: "Delivered",
-    eta: "2025-06-25",
-  },
-  {
-    id: "RA567234",
-    supplier: "Drunk Elephant",
-    mode: "Train" as const,
-    origin: "Houston, USA",
-    destination: "Austin, USA",
-    status: "In Transit",
-    eta: "2025-07-02",
-  },
-  {
-    id: "SH890678",
-    supplier: "The Ordinary",
-    mode: "Ship" as const,
-    origin: "Toronto, Canada",
-    destination: "Vancouver, Canada",
-    status: "At Port",
-    eta: "2025-07-11",
-  },
-  {
-    id: "TR345123",
-    supplier: "Paula's Choice",
-    mode: "Truck" as const,
-    origin: "Seattle, USA",
-    destination: "Spokane, USA",
-    status: "Delivered",
-    eta: "2025-06-26",
-  },
-  {
-    id: "RA789567",
-    supplier: "CeraVe Skincare",
-    mode: "Train" as const,
-    origin: "New York, USA",
-    destination: "Rochester, USA",
-    status: "In Transit",
-    eta: "2025-07-03",
-  },
-];
+    containerId: "CONT778923",
+    containerType: "40ft Standard",
+    currentSegment: 0,
+    journeySegments: [
+      {
+        id: "seg1",
+        mode: "Ship" as const,
+        origin: "Mumbai, India",
+        destination: "Rotterdam, Netherlands",
+        status: "In Progress" as const,
+        estimatedDuration: "20 days",
+      }
+    ],
+    consolidatedShipments: [
+      {
+        supplierId: "COL001",
+        supplierName: "Colgate-Palmolive",
+        orderIds: ["PO132"],
+        weight: "6,300 kg",
+        volume: "35 m³"
+      }
+    ],
+    totalWeight: "6,300 kg",
+    totalVolume: "35 m³"
+  }
+].map(shipment => ({
+  ...shipment,
+  // Ensure all shipments have the required properties with defaults
+  containerId: shipment.containerId || `CONT${shipment.id.slice(-6)}`,
+  containerType: shipment.containerType || "20ft Standard",
+  currentSegment: shipment.currentSegment ?? 0,
+  journeySegments: shipment.journeySegments || [
+    {
+      id: "seg1",
+      mode: shipment.mode,
+      origin: shipment.origin,
+      destination: shipment.destination,
+      status: shipment.status === "Delivered" ? "Completed" as const : 
+              shipment.status === "In Transit" ? "In Progress" as const :
+              "Pending" as const,
+      estimatedDuration: "8 hours",
+    }
+  ],
+  consolidatedShipments: shipment.consolidatedShipments || [
+    {
+      supplierId: shipment.id.slice(0, 3) + "001",
+      supplierName: shipment.supplier,
+      orderIds: ["PO" + shipment.id.slice(-3)],
+      weight: "5,000 kg",
+      volume: "30 m³"
+    }
+  ],
+  totalWeight: shipment.totalWeight || "5,000 kg",
+  totalVolume: shipment.totalVolume || "30 m³"
+}));
 
 function statusColor(status: string) {
   if (status === "Delivered") return "bg-green-100 text-green-700";
@@ -630,9 +349,8 @@ export default function ShipmentTable() {
               </thead>
               <tbody>
                 {sampleShipments.map((shipment) => (
-                  <>
+                  <React.Fragment key={shipment.id}>
                     <tr
-                      key={shipment.id}
                       className="border-t hover:bg-muted transition group"
                     >
                       <td className="px-4 py-2">
@@ -706,7 +424,7 @@ export default function ShipmentTable() {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </React.Fragment>
                 ))}
               </tbody>
             </table>
