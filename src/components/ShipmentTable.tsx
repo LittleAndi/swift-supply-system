@@ -1,10 +1,12 @@
-
 import { useState } from "react";
 import { ModeIcon } from "./ModeIcon";
-import { BadgeCheck, Clock12 } from "lucide-react";
+import { BadgeCheck, Clock12, ChevronDown, ChevronRight } from "lucide-react";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import ShipmentDetailsDialog from "./ShipmentDetailsDialog";
+import JourneyTimeline from "./JourneyTimeline";
+import ContainerInfo from "./ContainerInfo";
 
+// Enhanced shipment data with journey segments and container info
 const sampleShipments = [
   {
     id: "SH100234",
@@ -14,6 +16,62 @@ const sampleShipments = [
     destination: "Hamburg, Germany",
     status: "In Transit",
     eta: "2025-06-29",
+    containerId: "CONT100234",
+    containerType: "40ft Standard",
+    currentSegment: 1,
+    journeySegments: [
+      {
+        id: "seg1",
+        mode: "Truck" as const,
+        origin: "Ho Chi Minh Factory",
+        destination: "Ho Chi Minh Port",
+        status: "Completed" as const,
+        estimatedDuration: "4 hours",
+        actualDuration: "3.5 hours"
+      },
+      {
+        id: "seg2",
+        mode: "Ship" as const,
+        origin: "Ho Chi Minh Port",
+        destination: "Hamburg Port",
+        status: "In Progress" as const,
+        estimatedDuration: "18 days",
+      },
+      {
+        id: "seg3",
+        mode: "Train" as const,
+        origin: "Hamburg Port",
+        destination: "Frankfurt DC",
+        status: "Pending" as const,
+        estimatedDuration: "8 hours",
+      },
+      {
+        id: "seg4",
+        mode: "Truck" as const,
+        origin: "Frankfurt DC",
+        destination: "Final Destination",
+        status: "Pending" as const,
+        estimatedDuration: "6 hours",
+      }
+    ],
+    consolidatedShipments: [
+      {
+        supplierId: "UNI001",
+        supplierName: "Unilever (VN)",
+        orderIds: ["PO123", "PO124"],
+        weight: "8,200 kg",
+        volume: "45 m³"
+      },
+      {
+        supplierId: "PRO001",
+        supplierName: "Procter & Gamble",
+        orderIds: ["PO128"],
+        weight: "4,250 kg",
+        volume: "25 m³"
+      }
+    ],
+    totalWeight: "12,450 kg",
+    totalVolume: "70 m³"
   },
   {
     id: "TR534202",
@@ -23,6 +81,40 @@ const sampleShipments = [
     destination: "São Paulo, Brazil",
     status: "Delivered",
     eta: "2025-06-12",
+    containerId: "CONT534202",
+    containerType: "20ft Refrigerated",
+    currentSegment: 2,
+    journeySegments: [
+      {
+        id: "seg1",
+        mode: "Truck" as const,
+        origin: "Santos Port",
+        destination: "São Paulo DC",
+        status: "Completed" as const,
+        estimatedDuration: "6 hours",
+        actualDuration: "5.5 hours"
+      },
+      {
+        id: "seg2",
+        mode: "Truck" as const,
+        origin: "São Paulo DC",
+        destination: "Final Destination",
+        status: "Completed" as const,
+        estimatedDuration: "2 hours",
+        actualDuration: "2 hours"
+      }
+    ],
+    consolidatedShipments: [
+      {
+        supplierId: "NES001",
+        supplierName: "Nestlé (BR)",
+        orderIds: ["PO125", "PO126"],
+        weight: "6,800 kg",
+        volume: "38 m³"
+      }
+    ],
+    totalWeight: "6,800 kg",
+    totalVolume: "38 m³"
   },
   {
     id: "RA782193",
@@ -494,10 +586,21 @@ function statusColor(status: string) {
 export default function ShipmentTable() {
   const [selectedShipment, setSelectedShipment] = useState<typeof sampleShipments[0] | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [expandedRows, setExpandedRows] = useState<Set<string>>(new Set());
 
   const handleViewDetails = (shipment: typeof sampleShipments[0]) => {
     setSelectedShipment(shipment);
     setDialogOpen(true);
+  };
+
+  const toggleRowExpansion = (shipmentId: string) => {
+    const newExpanded = new Set(expandedRows);
+    if (newExpanded.has(shipmentId)) {
+      newExpanded.delete(shipmentId);
+    } else {
+      newExpanded.add(shipmentId);
+    }
+    setExpandedRows(newExpanded);
   };
 
   return (
@@ -513,8 +616,10 @@ export default function ShipmentTable() {
             <table className="min-w-full bg-white text-left text-sm">
               <thead className="sticky top-0 bg-white z-10 border-b">
                 <tr>
+                  <th className="px-4 py-3 font-semibold w-8"></th>
                   <th className="px-4 py-3 font-semibold">Mode</th>
                   <th className="px-4 py-3 font-semibold">Shipment ID</th>
+                  <th className="px-4 py-3 font-semibold">Container</th>
                   <th className="px-4 py-3 font-semibold">Supplier</th>
                   <th className="px-4 py-3 font-semibold">Origin</th>
                   <th className="px-4 py-3 font-semibold">Destination</th>
@@ -525,36 +630,83 @@ export default function ShipmentTable() {
               </thead>
               <tbody>
                 {sampleShipments.map((shipment) => (
-                  <tr
-                    key={shipment.id}
-                    className="border-t hover:bg-muted transition group"
-                  >
-                    <td className="px-4 py-2">
-                      <ModeIcon mode={shipment.mode} />
-                    </td>
-                    <td className="px-4 py-2 font-mono">{shipment.id}</td>
-                    <td className="px-4 py-2">{shipment.supplier}</td>
-                    <td className="px-4 py-2">{shipment.origin}</td>
-                    <td className="px-4 py-2">{shipment.destination}</td>
-                    <td className="px-4 py-2">
-                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold ${statusColor(shipment.status)}`}>
-                        {shipment.status === "Delivered" && <BadgeCheck size={14} className="text-green-500" />}
-                        {shipment.status === "At Port" && <Clock12 size={14} className="text-orange-500" />}
-                        {shipment.status === "In Transit" && <Clock12 size={14} className="text-blue-500 animate-pulse" />}
-                        {shipment.status}
-                      </span>
-                    </td>
-                    <td className="px-4 py-2">{shipment.eta}</td>
-                    <td className="px-3 py-2 text-right">
-                      <button
-                        onClick={() => handleViewDetails(shipment)}
-                        title="View details"
-                        className="text-primary hover:bg-muted px-2 py-1 rounded-md text-xs"
-                      >
-                        Details
-                      </button>
-                    </td>
-                  </tr>
+                  <>
+                    <tr
+                      key={shipment.id}
+                      className="border-t hover:bg-muted transition group"
+                    >
+                      <td className="px-4 py-2">
+                        <button
+                          onClick={() => toggleRowExpansion(shipment.id)}
+                          className="text-gray-500 hover:text-gray-700 transition-colors"
+                        >
+                          {expandedRows.has(shipment.id) ? (
+                            <ChevronDown size={16} />
+                          ) : (
+                            <ChevronRight size={16} />
+                          )}
+                        </button>
+                      </td>
+                      <td className="px-4 py-2">
+                        <ModeIcon mode={shipment.mode} />
+                      </td>
+                      <td className="px-4 py-2 font-mono">{shipment.id}</td>
+                      <td className="px-4 py-2 font-mono text-xs">{shipment.containerId}</td>
+                      <td className="px-4 py-2">{shipment.supplier}</td>
+                      <td className="px-4 py-2">{shipment.origin}</td>
+                      <td className="px-4 py-2">{shipment.destination}</td>
+                      <td className="px-4 py-2">
+                        <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-md text-xs font-semibold ${statusColor(shipment.status)}`}>
+                          {shipment.status === "Delivered" && <BadgeCheck size={14} className="text-green-500" />}
+                          {shipment.status === "At Port" && <Clock12 size={14} className="text-orange-500" />}
+                          {shipment.status === "In Transit" && <Clock12 size={14} className="text-blue-500 animate-pulse" />}
+                          {shipment.status}
+                        </span>
+                      </td>
+                      <td className="px-4 py-2">{shipment.eta}</td>
+                      <td className="px-3 py-2 text-right">
+                        <button
+                          onClick={() => handleViewDetails(shipment)}
+                          title="View details"
+                          className="text-primary hover:bg-muted px-2 py-1 rounded-md text-xs"
+                        >
+                          Details
+                        </button>
+                      </td>
+                    </tr>
+                    
+                    {/* Expanded row content */}
+                    {expandedRows.has(shipment.id) && (
+                      <tr key={`${shipment.id}-expanded`}>
+                        <td colSpan={10} className="px-4 py-0 border-t-0">
+                          <div className="bg-gray-50 rounded-lg p-4 my-2">
+                            <div className="grid lg:grid-cols-2 gap-6">
+                              {/* Journey Timeline */}
+                              <div>
+                                <h4 className="font-semibold mb-3 text-sm">Multi-Modal Journey</h4>
+                                <JourneyTimeline 
+                                  segments={shipment.journeySegments} 
+                                  currentSegment={shipment.currentSegment}
+                                />
+                              </div>
+                              
+                              {/* Container Information */}
+                              <div>
+                                <h4 className="font-semibold mb-3 text-sm">Container Details</h4>
+                                <ContainerInfo
+                                  containerId={shipment.containerId}
+                                  consolidatedShipments={shipment.consolidatedShipments}
+                                  totalWeight={shipment.totalWeight}
+                                  totalVolume={shipment.totalVolume}
+                                  containerType={shipment.containerType}
+                                />
+                              </div>
+                            </div>
+                          </div>
+                        </td>
+                      </tr>
+                    )}
+                  </>
                 ))}
               </tbody>
             </table>
