@@ -3,6 +3,7 @@ import DashboardSidebar from "@/components/DashboardSidebar";
 import DashboardHeader from "@/components/DashboardHeader";
 import AnalyticsOverview from "@/components/AnalyticsOverview";
 import PerformanceCharts from "@/components/PerformanceCharts";
+import CostAnalysisCharts from "@/components/CostAnalysisCharts";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 const Analytics = () => {
@@ -39,10 +40,7 @@ const Analytics = () => {
             </TabsContent>
             
             <TabsContent value="costs" className="mt-6">
-              <div className="bg-white rounded-xl p-6 shadow ring-1 ring-muted/30">
-                <h3 className="text-lg font-semibold mb-4">Cost Analysis Coming Soon</h3>
-                <p className="text-gray-600">Detailed cost breakdown and analysis charts will be available here.</p>
-              </div>
+              <CostAnalysisCharts />
             </TabsContent>
             
             <TabsContent value="efficiency" className="mt-6">
