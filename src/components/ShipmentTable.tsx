@@ -1,7 +1,7 @@
 
 import { useState } from "react";
 import { ModeIcon } from "./ModeIcon";
-import { ChevronRight, BadgeCheck, Clock12 } from "lucide-react";
+import { BadgeCheck, Clock12 } from "lucide-react";
 import ShipmentDetailsDialog from "./ShipmentDetailsDialog";
 
 const sampleShipments = [
@@ -41,6 +41,42 @@ const sampleShipments = [
     status: "In Transit",
     eta: "2025-07-11",
   },
+  {
+    id: "TR445671",
+    supplier: "Johnson & Johnson",
+    mode: "Truck" as const,
+    origin: "New Brunswick, USA",
+    destination: "Chicago, USA",
+    status: "In Transit",
+    eta: "2025-06-20",
+  },
+  {
+    id: "SH778923",
+    supplier: "Colgate-Palmolive",
+    mode: "Ship" as const,
+    origin: "Mumbai, India",
+    destination: "Rotterdam, Netherlands",
+    status: "At Port",
+    eta: "2025-07-05",
+  },
+  {
+    id: "RA334556",
+    supplier: "Henkel AG",
+    mode: "Train" as const,
+    origin: "Düsseldorf, Germany",
+    destination: "Milan, Italy",
+    status: "Delivered",
+    eta: "2025-06-10",
+  },
+  {
+    id: "TR889012",
+    supplier: "Kimberly-Clark",
+    mode: "Truck" as const,
+    origin: "Dallas, USA",
+    destination: "Phoenix, USA",
+    status: "In Transit",
+    eta: "2025-06-16",
+  },
 ];
 
 function statusColor(status: string) {
@@ -63,15 +99,8 @@ export default function ShipmentTable() {
       <section className="mt-1 mb-10">
         <div className="flex items-center justify-between mb-2">
           <h3 className="text-lg font-semibold text-gray-800">
-            Recent Shipments
+            Current Shipments
           </h3>
-          <a
-            href="#"
-            className="text-primary hover:underline text-sm flex items-center gap-1 group"
-          >
-            View All
-            <ChevronRight size={16} className="group-hover:translate-x-1 transition" />
-          </a>
         </div>
         <div className="overflow-x-auto rounded-xl shadow ring-1 ring-muted/30">
           <table className="min-w-full bg-white text-left text-sm">
