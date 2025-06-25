@@ -1,5 +1,5 @@
 
-import { Home, Truck, Ship, Train, Package, PieChart } from "lucide-react";
+import { Home, Truck, Ship, Train, Package, PieChart, Book } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NavLink } from "react-router-dom";
 
@@ -9,6 +9,7 @@ const navItems = [
   { label: "Shipments", icon: <Truck size={18} />, path: "/shipments" },
   { label: "Inventory", icon: <Package size={18} />, path: "/inventory" },
   { label: "Analytics", icon: <PieChart size={18} />, path: "/analytics" },
+  { label: "Wiki", icon: <Book size={18} />, path: "/wiki" },
 ];
 
 export default function DashboardSidebar() {
